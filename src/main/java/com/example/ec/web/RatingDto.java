@@ -7,8 +7,6 @@ import javax.validation.constraints.Size;
 
 /**
  * Data Transfer Object for Rating a Tour.
- *
- * Created by Mary Ellen Bowman
  */
 public class RatingDto {
 
