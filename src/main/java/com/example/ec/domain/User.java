@@ -1,10 +1,12 @@
 package com.example.ec.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Security User Entity.
