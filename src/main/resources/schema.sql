@@ -52,4 +52,3 @@ CREATE TABLE tour_rating (
 
 ALTER TABLE tour_rating ADD FOREIGN KEY (tour_id) REFERENCES tour(id);
 ALTER TABLE tour_rating ADD UNIQUE MyConstraint (tour_id, customer_id);
-
