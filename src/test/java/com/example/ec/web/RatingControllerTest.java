@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -68,31 +70,26 @@ public class RatingControllerTest {
      *  HTTP GET /ratings
      */
     @Test
-    @Ignore // TestRestTemplate cannot serialize list issue
     public void getRatings() {
-        when(tourRatingServiceMock.lookupAll())
-                .thenReturn(
-                        Arrays.asList(tourRatingMock, tourRatingMock, tourRatingMock));
+        when(tourRatingServiceMock.lookupAll()).thenReturn(Arrays.asList(tourRatingMock, tourRatingMock, tourRatingMock));
 
-        ResponseEntity<TourRating[]> response = restTemplate
-                .getForEntity(RATINGS_URL, TourRating[].class);
+        ResponseEntity<List<RatingDto>> response = restTemplate.exchange(RATINGS_URL, HttpMethod.GET,null,
+                new ParameterizedTypeReference<List<RatingDto>>() {});
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(response.getBody().length, is(3));
+        assertThat(response.getBody().size(), is(3));
     }
 
     /**
      *  HTTP GET /ratings/{id}
      */
     @Test
-    @Ignore // TestRestTemplate cannot serialize list issue
     public void getOne()  {
 
-        when(tourRatingServiceMock.lookupRatingById(RATING_ID))
-                .thenReturn(Optional.of(tourRatingMock));
+        when(tourRatingServiceMock.lookupRatingById(RATING_ID)).thenReturn(Optional.of(tourRatingMock));
 
-        ResponseEntity<RatingDto> response = restTemplate
-                .getForEntity(RATINGS_URL + "/" + RATING_ID, RatingDto.class);
+        ResponseEntity<RatingDto> response =
+                restTemplate.getForEntity(RATINGS_URL + "/" + RATING_ID, RatingDto.class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody().getCustomerId(), is(CUSTOMER_ID));
@@ -101,7 +98,6 @@ public class RatingControllerTest {
     }
 
     @Test
-    @Ignore // TestRestTemplate cannot serialize list issue
     public void getOne_notFound() {
         when(tourRatingServiceMock.lookupRatingById(RATING_ID))
                 .thenReturn(Optional.empty());

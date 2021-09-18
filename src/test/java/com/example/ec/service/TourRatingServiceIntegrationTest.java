@@ -117,7 +117,7 @@ public class TourRatingServiceIntegrationTest {
     //Happy Path get average score of a Tour.
     @Test
     public void getAverageScore() {
-        assertEquals(service.getAverageScore(TOUR_ID),5.0);
+        assertEquals(service.getAverageScore(TOUR_ID),4.0);
     }
 
     //UnHappy Path, Tour NOT_A_TOUR_ID does not exist
